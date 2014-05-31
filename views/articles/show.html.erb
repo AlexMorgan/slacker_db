@@ -1,0 +1,47 @@
+
+<div class="container">
+
+  <% if @comments.to_a == []%>
+    <div class="col-md-6 col-md-offset-3">
+      <h1 class="title">No Comments. Be the first...</h1>
+    </div>
+  <% else %>
+    <div class="col-md-8 col-md-offset-3">
+      <h1 class="title"><%= "Question: #{@comments[0]["article_content"]}" %></h1>
+    </div>
+  <% end %>
+
+  <div class="col-md-8 col-md-offset-2">
+    <% if @comments.to_a != nil%>
+      <% @comments.each do |comment| %>
+        <div class="well">
+          <form action="/articles/<%= params[:id]%>/comment/<%= comment["id"] %>" method="post">
+            <input type="hidden" name="plus_one" value="<%= comment["votes"].to_i + 1 %>">
+            <input type="submit" value="&#9650;" class="btn btn-sm primary">
+          </form>
+          <p class="comment"><%= comment["content"] %> </p>
+          <cite class="user"><%= "-#{comment["username"]} | Votes: #{comment["votes"]}" %></cite>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="col-md-6 col-md-offset-3">
+    <div class="well">
+      <!-- Use params to access the id symbol -->
+      <form action="/articles/<%=params[:id]%>/comments" method="post">
+        <input name="username" placeholder="Enter Username" type="text" class="input">
+        <div>
+          <textarea name="comment" class="input" placeholder="Enter Comment"></textarea>
+        </div>
+        <!-- <input type="hidden" name="article_id" value="<%= "#{params[:id]}" %>"> -->
+        <input type="submit" value="Submit" class="btn btn-success input">
+      </form>
+    </div>
+  </div>
+
+  <div class="col-md-1 col-md-offset-9">
+    <a href="/articles" class="btn btn-primary">Home</a>
+  </div>
+
+</div>

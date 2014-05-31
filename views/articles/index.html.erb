@@ -1,0 +1,33 @@
+
+<div class="container">
+
+  <div class="col-md-5 col-md-offset-4">
+    <h1 class="title">Most Recent Questions:</h1>
+  </div>
+
+  <ol>
+    <% saved_articles = [] %>
+    <% @articles.each do |article| %>
+      <% while !saved_articles.include?("#{article["id"]}") %>
+        <div class="col-md-8 col-md-offset-2 well">
+            <li class="article"> <a href="<%= "/articles/#{article['id']}/comments" %>" class="link"><%= article["article_content"] %></a></li>
+            <% if article["comment_content"] == nil %>
+              <cite class="user"> <span class="blue">No Comments</cite>
+            <% end %>
+        </div>
+        <% saved_articles << article["id"] %>
+      <% end %>
+    <% end %>
+  </ol>
+
+  <div class="col-md-8 col-md-offset-2">
+    <div class="well">
+      <form action="/articles" method="post">
+        <input type="text" placeholder="Enter question" name="question" class="question-input">
+        <input type="submit" class="btn btn-primary">
+      </form>
+    </div>
+  </div>
+
+</div>
+
